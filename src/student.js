@@ -2,17 +2,18 @@ import React from "react";
 
     import './Homepage.css';
   import { useEffect,useState } from "react";
-    import {getDoc,collection,doc,addDoc} from 'firebase/firestore';
+    import {getDocs,collection,doc,addDoc} from 'firebase/firestore';
     import {db} from './firebase-config';
     const Stu=()=>{
+      const [req,setreq]=useState([]);
        const collectionref=collection(db,"user");
        const docref=doc(db,"user","wipYzeht0YXaog0CWJ5n");
     useEffect(() => {
        const getUser=async()=>{
           try{
             
-         const data= getDoc(docref);
-         
+         const data= await getDocs(collectionref);
+         setreq(data.docs.map((docs)=>({...docs.data(),id:docs.id})));
          console.log(data);
           }
           catch(err){
@@ -27,11 +28,11 @@ import React from "react";
     
        const [name,setname]=useState("");
        const [reason,setreason]=useState("");
-    
+    const per=false;
     
        const pushdata=async ()=>{
           try{
-             await addDoc(collectionref,{name:name,reason:reason});
+             await addDoc(collectionref,{name:name,reason:reason,per:per});
      }catch(err){
     console.log(err);
       }
