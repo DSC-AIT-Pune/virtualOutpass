@@ -9,6 +9,8 @@ import { Button } from "@mui/material";
 import {auth} from './firebase-config';
 import {signOut} from 'firebase/auth';
 import Authority from "./Authority";
+import Hod from './Hod';
+import ClassAuth from "./ClassAuth";
 const App=()=>{
     const [curruser,setcurruser]=useState("");
     const [isAuth,setIsAuth]=useState(false);
@@ -32,6 +34,8 @@ const App=()=>{
             <Route path="/login" element={<Login setIsAuth={setIsAuth} setcurruser={setcurruser}/>}/>
             <Route path="/stu" element={<Stu />}/>
             <Route path="/auth" element={<Authority/>}></Route>
+            <Route path="/hod" element={<Hod/>}></Route>
+            <Route path="/classauth" element={<ClassAuth/>}></Route>
         </Routes>
 
    

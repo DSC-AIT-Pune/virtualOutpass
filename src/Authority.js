@@ -9,13 +9,13 @@ const Authority=()=>{
        const [req,setreq]=useState([]);
        const updatedecyes=async(id,per)=>{
         const userdoc=doc(db,"user",id);
-        const changed={per:true}
+        const changed={per_jd:true}
         updateDoc(userdoc,changed)
             console.log("called update");
        }
        const updatedecno=async(id,per)=>{
         const userdoc=doc(db,"user",id);
-        const changed={per:false}
+        const changed={per_jd:false}
         updateDoc(userdoc,changed);
        }
     useEffect(() => {
@@ -47,11 +47,11 @@ return(
 <h2>{
 req.map((req)=>{
     return(
-        <div className="entry">
+        <div className="entry" key={req.id}>
             <div>{req.name}</div>
             <div>{req.reason}</div>
-            <button onClick={()=>{updatedecyes(req.id,req.per)}}>Do Yes</button>
-            <button onClick={()=>{updatedecno(req.id,req.per)}}>Do No</button>
+            <button onClick={()=>{updatedecyes(req.id,req.per_jd)}}>Do Yes</button>
+            <button onClick={()=>{updatedecno(req.id,req.per_jd)}}>Do No</button>
         </div>
         
     );
