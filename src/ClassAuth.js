@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { BrowserRouter } from "react-router-dom";
 import {db,auth} from './firebase-config';
 import { getDocs,doc,collection,updateDoc } from "firebase/firestore";
+import './row.css';
 const ClassAuth=()=>{
     const collectionref=collection(db,"user");
     const [users,setusers]=useState([]);
@@ -31,21 +32,37 @@ const ClassAuth=()=>{
         const change={per_class:false};
         updateDoc(userdoc,change);
     }
+    const [year,setyear]=useState("");
+    const [batch,setbatch]=useState("");
+    
 return (
     
     <>
     <h1>ClassAuth Page it is</h1>
-    <h1>{users.map((users)=>{
-        return(
-            <div className="block" key={users.id}>
-                <h2>{users.name}</h2>
-                <h2>{users.reason}</h2>
-                <button onClick={()=>{updateyes(users.id,users.per_class)}}>YES</button>
-                <button onClick={()=>{updateno(users.id,users.per_class)}}>NO</button>
-            </div>
-            
-        );
-    })}</h1>
+    <input type="text" placeholder="year" onChange={(event)=>{setyear(event.target.value)}}/>
+    <input type="text" placeholder="batch" onChange={(event)=>{setbatch(event.target.value)}}/>
+   
+    {console.log(batch)}
+    <h2 className="entry">
+        <div>Name</div>
+        <div>Reason</div>
+        <div>YEs/No</div>
+    </h2>
+    <div>{users.map((users)=>{
+        if(users.year==year && users.batch==batch){
+            return(
+           
+                <div className="block" key={users.id}>
+                    <h2>{users.name}</h2>
+                    <h2>{users.reason}</h2>
+                    <button onClick={()=>{updateyes(users.id,users.per_class)}}>Yes</button>
+                    <button onClick={()=>{updateno(users.id,users.per_class)}}>No</button>
+                </div>
+                
+            );
+        }
+        
+    })}</div>
     </>
 );
 }

@@ -1,0 +1,10 @@
+.status{
+    display: flex;
+    flex-direction: row;
+    gap: 2rem;
+}
+.up{
+    display: flex;
+    flex-direction: row;
+    gap: 2rem;
+}

@@ -2,9 +2,11 @@ import React, { useEffect, useState } from "react";
 import { BrowserRouter } from "react-router-dom";
 import {db,auth} from './firebase-config';
 import { getDocs,doc,collection,updateDoc } from "firebase/firestore";
+import './row.css';
 const Hod=()=>{
     const collectionref=collection(db,"user");
     const [users,setusers]=useState([]);
+    const [department,setdepartment]=useState("");
     useEffect(()=>{
         const getuser=async()=>{
             try{
@@ -20,6 +22,7 @@ const Hod=()=>{
         }
         getuser();
     },[])
+    
     const updateyes=async (id,per)=>{
         const userdoc=doc(collectionref,id);
         const change={per_hod:true};
@@ -35,8 +38,14 @@ return (
     
     <>
     <h1>HOD Page it is</h1>
+    <input type="text" placeholder="department" onChange={(e)=>{setdepartment(e.target.value)}}/>
+    <h2 className="entry">
+        <div>Name</div>
+        <div>Reason</div>
+        <div>YEs/No</div>
+    </h2>
     <h1>{users.map((users)=>{
-        if(users.department=="entc"){
+        if(users.department==department){
             return(
                 <div className="block" key={users.id}>
                     <h2>{users.name}</h2>

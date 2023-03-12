@@ -1,0 +1,10 @@
+.block{
+    display: flex;
+    flex-direction: row;
+    gap: 3rem;
+}
+.entry{
+    display: flex;
+    flex-direction: row;
+    gap: 3rem;
+}

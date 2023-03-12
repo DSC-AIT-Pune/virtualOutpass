@@ -3,6 +3,7 @@ import { useEffect,useState } from "react";
 import {db} from './firebase-config';
 import {getDocs,collection,doc,addDoc,updateDoc} from 'firebase/firestore';
 import './Authority.css'
+import './row.css';
 const Authority=()=>{
     const collectionref=collection(db,"user");
        const docref=doc(db,"user","wipYzeht0YXaog0CWJ5n");
@@ -47,7 +48,7 @@ return(
 <h2>{
 req.map((req)=>{
     return(
-        <div className="entry" key={req.id}>
+        <div className="block" key={req.id}>
             <div>{req.name}</div>
             <div>{req.reason}</div>
             <button onClick={()=>{updatedecyes(req.id,req.per_jd)}}>Do Yes</button>
