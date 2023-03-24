@@ -20,7 +20,7 @@ const Login=({setIsAuth,setcurruser}) =>{
   const [loginPassword, setLoginPassword] = useState("");
   const [message,setmessage]=useState("");
   const [user, setUser] = useState({});
-
+ 
   onAuthStateChanged(auth, (currentUser) => {
     setUser(currentUser);
   });
@@ -30,7 +30,8 @@ const navigate=useNavigate();
       const user = await createUserWithEmailAndPassword(
         auth,
         registerEmail,
-        registerPassword
+        registerPassword,
+        
       );
       
       console.log(user);
@@ -83,6 +84,7 @@ const navigate=useNavigate();
             setRegisterPassword(event.target.value);
           }}
         />
+        
 
         <button onClick={register}> Create User</button>
       </div>
