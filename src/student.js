@@ -1,9 +1,10 @@
 import React from "react";
 import './student.css';
-    import './Homepage.css';
-  import { useEffect,useState } from "react";
-    import {getDocs,collection,doc,addDoc,setDoc,getDoc} from 'firebase/firestore';
-       import {db,auth} from './firebase-config';
+ import './Homepage.css';
+import { useEffect,useState } from "react";
+import {getDocs,collection,doc,addDoc,setDoc,getDoc, updateDoc} from 'firebase/firestore';
+import {db,auth,storage} from './firebase-config';
+import {ref, uploadBytes} from 'firebase/storage';
     const Stu=()=>{
       const [req,setreq]=useState({name:"",
       reason:"",
@@ -16,12 +17,24 @@ import './student.css';
        const [year,setyear]=useState("");
        const [branch,setbranch]=useState("");
        const per=false;
-       
-      const [startDate,setstartDate]=useState("");
-      const [noDays,setnoDays]=useState("");
+       const [enddate,setenddate]=useState("");
+       const [startDate,setstartDate]=useState("");
+       const [noDays,setnoDays]=useState("");
        const collectionref=collection(db,"user");
+      const [Image,setImage]=useState(null);
 
+const uploadImage=async()=>{
+   
+   if(Image==null){
+      return ;
+   }else{
+         const imageref=ref(storage,auth.currentUser.uid);
+         uploadBytes(imageref,Image).then(()=>{
+            alert('uploaded');
+         });
+   }
 
+}
 
 
     useEffect(() => {
@@ -53,7 +66,9 @@ import './student.css';
        const pushdata=async ()=>{
           try{
             
-            await setDoc(doc(collectionref,auth.currentUser.uid),{name:name,
+            const user=doc(collectionref,auth.currentUser.uid);
+            
+           const change= {name:name,
                reason:reason,
                per_hod:per,
                per_class:per,
@@ -63,18 +78,25 @@ import './student.css';
                year:year,
                startDate:startDate,
                noDays:noDays   ,
-               denialreason:""
-            })
+               denialreason:"",
+               enddate:enddate,
+               
+            }
+            updateDoc(user,change)
      }catch(err){
     console.log(err);
       }
           
        }
+
+
        return(
        <>
+    
       
        <h1 className="cen">This is the student page</h1>
-       
+       <input type="file" onChange={(e)=>{setImage(e.target.files[0])}}/>
+      <button onClick={uploadImage}>Upload Image</button>
        <input type="text" placeholder="name" onChange={(event)=>{
     setname(event.target.value);
        }}/>
@@ -87,9 +109,9 @@ import './student.css';
           <option value="FE">FE</option>
           <option value="SE">SE</option>
           <option value="TE">TE</option>
-          <option value="BE">BE</option>
+          <option value="BE">BE</option> 
         </select>
-
+      
         <select name="" id="" onChange={(e)=>{setbranch(e.target.value)}}>
           <option value="">Select Branch</option>
           <option value="CompA">Comp A</option>
@@ -100,7 +122,9 @@ import './student.css';
           <option value="Mech">Mech</option>
         </select>
        <h4>Start Date</h4>
-        <input type="text" placeholder="dd/mm/yy" onchange={(e)=>{setstartDate(e.target.value)}}/>
+        <input type="date" onChange={(e)=>{setstartDate(e.target.value)}}/>
+     <h4>End Date</h4>
+       <input type="date" onChange={(e)=>{setenddate(e.target.value)}}/>
         <h4>Total Days</h4>
         <input type="text" placeholder="no. of days" onChange={(e)=>{setnoDays(e.target.value)}}/>
         <button onClick={pushdata}>Create Request</button>

@@ -20,9 +20,11 @@ const Login=({setIsAuth,setcurruser}) =>{
   const [loginPassword, setLoginPassword] = useState("");
   const [message,setmessage]=useState("");
   const [user, setUser] = useState({});
+  
  
   onAuthStateChanged(auth, (currentUser) => {
     setUser(currentUser);
+    setIsAuth(true);
   });
 const navigate=useNavigate();
   const register = async () => {
