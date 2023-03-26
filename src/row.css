@@ -1,0 +1,22 @@
+.block{
+    display: flex;
+    flex-direction: row;
+    gap: 3rem;
+}
+.entry{
+    display: flex;
+    flex-direction: row;
+    gap: 3rem;
+}
+.circle_green{
+    border-radius: 50%;
+    background-color: green;
+    height: 2rem;
+    width: 2rem;
+}
+.circle_red{
+    border-radius: 50%;
+    background-color: red;
+    height: 2rem;
+    width: 2rem;
+}
