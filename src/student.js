@@ -19,7 +19,6 @@ import {ref, uploadBytes} from 'firebase/storage';
        const per=false;
        const [enddate,setenddate]=useState("");
        const [startDate,setstartDate]=useState("");
-       const [noDays,setnoDays]=useState("");
        const collectionref=collection(db,"user");
       const [Image,setImage]=useState(null);
 
@@ -68,7 +67,8 @@ const uploadImage=async()=>{
             
             const user=doc(collectionref,auth.currentUser.uid);
             
-           const change= {name:name,
+           const change= {
+            name:name,
                reason:reason,
                per_hod:per,
                per_class:per,
@@ -77,7 +77,6 @@ const uploadImage=async()=>{
                branch:branch,
                year:year,
                startDate:startDate,
-               noDays:noDays   ,
                denialreason:"",
                enddate:enddate,
                
@@ -95,6 +94,7 @@ const uploadImage=async()=>{
     
       
        <h1 className="cen">This is the student page</h1>
+       <h4>Welcome {req.name}</h4>
        <input type="file" onChange={(e)=>{setImage(e.target.files[0])}}/>
       <button onClick={uploadImage}>Upload Image</button>
        <input type="text" placeholder="name" onChange={(event)=>{
@@ -125,25 +125,37 @@ const uploadImage=async()=>{
         <input type="date" onChange={(e)=>{setstartDate(e.target.value)}}/>
      <h4>End Date</h4>
        <input type="date" onChange={(e)=>{setenddate(e.target.value)}}/>
-        <h4>Total Days</h4>
-        <input type="text" placeholder="no. of days" onChange={(e)=>{setnoDays(e.target.value)}}/>
+   
         <button onClick={pushdata}>Create Request</button>
     <h2>This are your requests</h2>
    
-    <div className="up">
-      <div>Name</div>
-      <div>Reason</div>
-      <div>Per Class Auth</div>
-      <div>Per HOD</div>
-      <div>Per JD </div>
-    </div>
+   
     {
-      req.name ? <div className="status"> 
-      <h3>{req.name}</h3>
-    <h3>{req.reason}</h3>
-        {!req.per_class ? <h4>No</h4>: <h4>Yes</h4> }
-       { !req.per_hod ? <h4>No</h4>: <h4>Yes</h4> }
-       { !req.per_jd ? <h4>{req.denialreason}</h4>: <h4>Yes</h4> }
+     !( (req.per_once_class && req.per_once_hod) && req.per_jd )? <div className="status"> 
+      <h3 >Name : {req.name}</h3>
+    
+    <h3>Reason :{req.reason}</h3>
+    {req.per_once_class ? <h4>
+
+      {!req.per_class ? <h4> Permission from Class Authority : No ,reason : {req.denialreason}</h4>: <h4>Permission from Class Authority: Yes
+{req.per_once_hod ? <h4>
+
+   { !req.per_hod ? <h4>Permision form HOD sir: No ,Reason : {req.denialreason}</h4>: <h4>Permission from HOD: Yes
+{req.per_once_jd ? <h4>
+   { !req.per_jd ? <h4>Permision form JD sir : No ,Reason : {req.denialreason}</h4>: <h4>Permission from JD : Yes</h4> }
+</h4>:<h4>Not seen by JD sir</h4>}
+
+
+</h4> }
+</h4>:<h4>Not seen by HOD </h4>}
+
+
+
+</h4> }
+    </h4> : <h4>Not seen yet by class authority .</h4>}
+       
+
+      
       
         </div>: <h4>NO Applictaion under view</h4>
     }

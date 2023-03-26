@@ -25,17 +25,15 @@ const App=()=>{
     return (
         <BrowserRouter>
          <nav>
-           <Link to="/">Home</Link>
+           <Link to="/">Log Out</Link>
          
-         {!isAuth ?<Link to="Login">Login</Link> : <Button onClick={logout}>Logout</Button>}  
-         {!isAuth ? <Link to="Login">Student</Link>:<Link to="/stu">Student</Link>}
-         <h1>current user: {curruser}</h1>
+       
          </nav>
          
         <Routes>
             <Route path="/"  element={<Homepage/>}/>
             <Route path="/login" element={<Login setIsAuth={setIsAuth} setcurruser={setcurruser}/>}/>
-            {(isAuth)  ? <Route path="/stu" element={<Stu/>}/> :<Route path="/stu" element={<Login setIsAuth={setIsAuth} setcurruser={setcurruser}/>}/>}
+            {(isAuth)  ? <Route path="/stu" element={<Stu email={curruser}/>}/> :<Route path="/stu" element={<Login setIsAuth={setIsAuth} setcurruser={setcurruser}/>}/>}
             {!isAuthau ? <Route path="/auth" element={<Hodlogin logine="/auth" name="Authority" setisAuthau={setisAuthau}/>}/>:<Route path="/auth" element={<Authority/>}/>}
             {!isAuthau ? <Route path="/hod" element={<Hodlogin logine="/hod" name="HOD" setisAuthau={setisAuthau}/>}/>:<Route path="/hod" element={<Hod/>}/>}
             {!isAuthau ? <Route path="/classauth" element={<Hodlogin logine="/classauth" name="Class Authority Login" setisAuthau={setisAuthau}/>}/>:<Route path="/classauth" element={<ClassAuth/>}/>}

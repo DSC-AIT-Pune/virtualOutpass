@@ -25,13 +25,17 @@ const ClassAuth=()=>{
     },[])
     const updateyes=async (id,per)=>{
         const userdoc=doc(collectionref,id);
-        const change={per_class:true};
+        const change={per_class:true,
+        per_once_class:true
+        };
         updateDoc(userdoc,change);
-
+       
     }
     const updateno=(id,per)=>{
         const userdoc=doc(collectionref,id);
-        const change={per_class:false};
+        const change={per_class:false,
+        per_once_class:true
+        };
         updateDoc(userdoc,change);
     }
     const updatedecision=async(id,reason)=>{
@@ -71,9 +75,9 @@ return (
         <div>YEs/No</div>
     </h2>
     <div>{users.map((users)=>{
-        if(users.year==year && users.branch==department){
+        if((users.year==year && users.branch==department) && users.per_once_class==false){
             return(
-           
+            
                 <div className="block" key={users.id}>
                     <h2>{users.name}</h2>
                     <h2>{users.reason}</h2>

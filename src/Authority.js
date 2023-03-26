@@ -16,12 +16,16 @@ const Authority=()=>{
        }
        const updatedecno=async(id,per)=>{
         const userdoc=doc(db,"user",id);
-        const changed={per_jd:false}
+        const changed={per_jd:false,
+            per_once_jd:true
+        }
         updateDoc(userdoc,changed);
        }
       const updatereason=async(id,reason)=>{
         const user=doc(db,"user",id);
-        const changed={denialreason:denialreason};
+        const changed={denialreason:denialreason,
+        per_once_jd:true
+        };
         updateDoc(user,changed);
       }
 
@@ -57,7 +61,7 @@ return(
  
 <h2>{
 req.map((req)=>{
-    if(req.per_hod==true){
+    if(req.per_hod==true && req.per_once_jd==false){
     return(
         <div className="block" key={req.id}>
             <div>{req.name}</div>

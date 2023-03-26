@@ -24,7 +24,10 @@ const Login=({setIsAuth,setcurruser}) =>{
  
   onAuthStateChanged(auth, (currentUser) => {
     setUser(currentUser);
-    setIsAuth(true);
+    if(currentUser){
+      setIsAuth(true);
+    }
+     
   });
 const navigate=useNavigate();
   const register = async () => {
@@ -109,10 +112,10 @@ const navigate=useNavigate();
         <button onClick={login}> Login</button>
       </div>
 
-      <h4> User Logged In: </h4>
+      {/* <h4> User Logged In: </h4>
       {user?.email}
 
-      <button onClick={logout}> Sign Out </button>
+      <button onClick={logout}> Sign Out </button> */}
     
      <div>{message}</div>
     </div>

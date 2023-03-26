@@ -57,11 +57,12 @@ showimage("WOyc1JfVzUQlt0MwoP9uyTw0lJE3");
        
        <div>
         {req.map((req)=>{
-            if(req.reg==reg){
+            if(req.regno==reg){
               return(
                 <div key={req.id}>
-                <div >{req.name}</div>
-             {!datecheck(req.enddate,today)?<div>expired</div>: <div>not expired</div>}
+                <div >Name : {req.name}</div>
+                <div>Arrived late or not :</div>
+             {datecheck(req.enddate,today)?<div style={{color:"red"}}>late comer</div>: <div style={{color:"green"}}>On time </div>}
           
                 </div>
                 
@@ -71,7 +72,7 @@ showimage("WOyc1JfVzUQlt0MwoP9uyTw0lJE3");
         })}
 
        </div>
-       {   <img src={`${urrl}`} alt="acha" />}
+       {/* {   <img src={`${urrl}`} alt="acha" />} */}
     </>
  
     
