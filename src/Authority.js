@@ -8,9 +8,13 @@ const Authority=()=>{
     const collectionref=collection(db,"user");
       const [denialreason,setdenialreason]=useState("");
        const [req,setreq]=useState([]);
+     var cnt=0;
        const updatedecyes=async(id,per)=>{
         const userdoc=doc(db,"user",id);
-        const changed={per_jd:true}
+        const changed={per_jd:true,
+            per_once_jd:true,
+            final_per:true
+        }
         updateDoc(userdoc,changed)
             console.log("called update");
        }
@@ -23,8 +27,8 @@ const Authority=()=>{
        }
       const updatereason=async(id,reason)=>{
         const user=doc(db,"user",id);
-        const changed={denialreason:denialreason,
-        per_once_jd:true
+        const changed={denialreason:denialreason
+      
         };
         updateDoc(user,changed);
       }
@@ -34,9 +38,8 @@ const Authority=()=>{
           try{
             
          const data= await getDocs(collectionref);
-         
          setreq(data.docs.map((docs)=>({...docs.data(),id:docs.id})));
-         console.log("dom");
+     
           }
           catch(err){
              console.log(err);
@@ -48,29 +51,33 @@ const Authority=()=>{
     }, [])
 return(
     <>
+    
     <h1>This is authority page .</h1>
     <h2 className="entry">
         <div>Name</div>
         <div>Reason</div>
         <div>email</div>
+        <div>Start date</div>
+        <div>End Date</div>
         <div>class Auth decision</div>
         <div>hod decision</div>
         <div>Yes/No</div>
         
     </h2>
  
-<h2>{
+<div>{
 req.map((req)=>{
     if(req.per_hod==true && req.per_once_jd==false){
+        {cnt++}
     return(
         <div className="block" key={req.id}>
             <div>{req.name}</div>
             <div>{req.reason}</div>
             <div>{req.email}</div>
+            <div>{req.startDate}</div>
+            <div>{req.enddate}</div>    
             {!req.per_class ? <div className="circle_red"></div> : <div className="circle_green"></div> }
             {!req.per_hod ? <div className="circle_red"></div> : <div className="circle_green"></div> }
-
-            
             <button onClick={()=>{updatedecyes(req.id,req.per_jd)}}>Do Yes</button>
             <button onClick={()=>{updatedecno(req.id,req.per_jd)}}>Do No</button>
             <input type="text" placeholder="reason of denial" onChange={(e)=>{setdenialreason(e.target.value)}}/>
@@ -79,7 +86,8 @@ req.map((req)=>{
         
     );
     }
-})}</h2>
+})}</div>
+{(cnt)?<div></div>:<div>Nothing Pending</div>}
     </>
 
 );

@@ -9,6 +9,7 @@ const Hod=()=>{
     const [users,setusers]=useState([]);
     const [department,setdepartment]=useState("");
     const [denialreason,setdenialreason]=useState("");
+    var cnt=0;
     useEffect(()=>{
         const getuser=async()=>{
             try{
@@ -27,7 +28,9 @@ const Hod=()=>{
     {console.log(department)}
     const updateyes=async (id,per)=>{
         const userdoc=doc(collectionref,id);
-        const change={per_hod:true};
+        const change={per_hod:true,
+            per_once_hod:true
+        };
         updateDoc(userdoc,change);
 
     }
@@ -40,8 +43,8 @@ const Hod=()=>{
     }
     const updatedecision=async(id,reason)=>{
         const userdoc=doc(db,"user",id);
-        const change={denialreason:reason,
-        per_once_hod:true
+        const change={denialreason:reason
+        
         };
         updateDoc(userdoc,change)
     }
@@ -59,27 +62,33 @@ return (
         <option value="EntcB">EntcB</option>
         <option value="">Mech</option>
     </select>
-    <h2 className="entry">
+    <div className="entry">
         <div>Name</div>
         <div>Reason</div>
+        <div>Email</div>
+        <div>Start date</div>
+        <div>ENd date</div>
+        <div>class auth </div>
         <div>YEs/No</div>
-    </h2>
+    </div>
     
-    <h1>{users.map((users)=>{
+    <div>{users.map((users)=>{
         if(users.branch==department){
             if(users.per_class==true && users.per_once_hod==false){
 
-            
+            {cnt++}
             return(
                 <div className="block" key={users.id}>
-                    <h2>{users.name}</h2>
-                    <h2>{users.reason}</h2>
-                    <h2>{users.email}</h2>
+                    <div>{users.name}</div>
+                    <div>{users.reason}</div>
+                    <div>{users.email}</div>
+                    <div>{users.startDate}</div>
+                    <div>{users.enddate}</div>    
                     {!users.per_class ? <div className="circle_red"></div> : <div className="circle_green"></div> }
         
                     <button onClick={()=>{updateyes(users.id,users.per_hod)}}>YES</button>
                     <button onClick={()=>{updateno(users.id,users.per_hod)}}>NO</button>
-                    <input type="text" onChange={(e)=>{setdenialreason(e.target.value)}}/>
+                    <input type="text" placeholder="reason of denial" onChange={(e)=>{setdenialreason(e.target.value)}}/>
                     <button onClick={()=>{updatedecision(users.id,denialreason)}}>OK</button>
                 </div>
                 
@@ -87,7 +96,8 @@ return (
         }
     }
        
-    })}</h1>
+    })}</div>
+    {(cnt)?<div></div>:<div>Nothing pending</div>}
     </>
 );
 }

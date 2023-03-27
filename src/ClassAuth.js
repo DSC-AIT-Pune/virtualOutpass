@@ -6,6 +6,7 @@ import './row.css';
 const ClassAuth=()=>{
     const collectionref=collection(db,"user");
     const [users,setusers]=useState([]);
+    var cnt=0;
     const [denialreason,setdenialreason]=useState("");
     const [department,setdepartment]=useState("");
     useEffect(()=>{
@@ -72,15 +73,21 @@ return (
     <h2 className="entry">
         <div>Name</div>
         <div>Reason</div>
+        <div>Start Date</div>
+        <div>End Date</div>
         <div>YEs/No</div>
+        
     </h2>
     <div>{users.map((users)=>{
         if((users.year==year && users.branch==department) && users.per_once_class==false){
+            {cnt++}
             return(
             
                 <div className="block" key={users.id}>
-                    <h2>{users.name}</h2>
-                    <h2>{users.reason}</h2>
+                    <div>{users.name}</div>
+                    <div>{users.reason}</div>
+                    <div>{users.startDate}</div>
+                    <div>{users.enddate}</div>    
                     <button onClick={()=>{updateyes(users.id,users.per_class)}}>Yes</button>
                     <button onClick={()=>{updateno(users.id,users.per_class)}}>No</button>
                     <input type="text" placeholder="denial reason" onChange={(e)=>{setdenialreason(e.target.value)}}/>
@@ -91,6 +98,7 @@ return (
         }
         
     })}</div>
+    {(cnt)?<div></div>:<div>Nothing pending </div>}
     </>
 );
 }

@@ -68,11 +68,14 @@ const uploadImage=async()=>{
             const user=doc(collectionref,auth.currentUser.uid);
             
            const change= {
-            name:name,
                reason:reason,
                per_hod:per,
                per_class:per,
                per_jd:per,
+               per_once_class:per,
+               per_once_hod:per,
+               per_once_jd:per,
+               final_per:per,
                email:auth.currentUser.email,
                branch:branch,
                year:year,
@@ -129,9 +132,11 @@ const uploadImage=async()=>{
         <button onClick={pushdata}>Create Request</button>
     <h2>This are your requests</h2>
    
-   
-    {
-     !( (req.per_once_class && req.per_once_hod) && req.per_jd )? <div className="status"> 
+   {(req.final_per)? <div>You Permision of reason : {req.reason} is passed and 
+   you are given leave stating from : {req.startDate} to : {req.enddate}. 
+   </div>:<div>
+   {
+     !( (req.per_once_class && req.per_once_hod) && req.per_once_jd )? <div className="status"> 
       <h3 >Name : {req.name}</h3>
     
     <h3>Reason :{req.reason}</h3>
@@ -159,6 +164,9 @@ const uploadImage=async()=>{
       
         </div>: <h4>NO Applictaion under view</h4>
     }
+      
+      </div>}
+  
     
  
       </>);
